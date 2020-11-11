@@ -3,16 +3,18 @@ dragonSprite.src = 'image/dragon.png';
 
 class Bird {
     constructor() {
+        this.reset()
+    }
+    reset() {
         this.x = 150;
         this.y = 200;
         this.vy = 0;
-        this.originalWidth = 941;
-        this.originalHeight = 680;
-        this.width = this.originalWidth / 20;
-        this.height = this.originalHeight / 20;
+        this.originalWidth = 113;
+        this.originalHeight = 91;
+        this.width = this.originalWidth / 2;
+        this.height = this.originalHeight / 2;
         this.weight = 1;
         this.frameX = 0;
-
     }
     update() {
 
@@ -39,8 +41,7 @@ class Bird {
     }
 
     draw() {
-        //ctx.fillStyle = 'red';
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
+
         ctx.drawImage(dragonSprite, this.frameX * this.originalWidth, 0, this.originalWidth, this.originalHeight,
             this.x - 30, this.y - 12, this.width * 1.7, this.height * 1.7);
     }

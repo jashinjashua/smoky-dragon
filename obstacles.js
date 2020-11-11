@@ -6,11 +6,11 @@ pipeb.src = "image/pipeb.png";
 const pipet = new Image();
 pipet.src = "image/pipet.png";
 
-
-
-
 class Obstacle {
     constructor() {
+        this.reset()
+    }
+    reset() {
         this.top = (Math.random() * canvas.height / 2.5) + 25;
         this.bottom = (Math.random() * canvas.height / 2.5) + 25;
         this.x = canvas.width;
@@ -19,14 +19,10 @@ class Obstacle {
     }
 
     draw() {
-
-
         ctx.drawImage(pipet, this.x, 0, this.width, this.top);
         ctx.drawImage(pipeb, this.x, canvas.height - this.bottom, this.width, this.bottom);
-
-
-
     }
+
     update() {
         this.x -= gamespeed;
         if (!this.counted && this.x < bird.x) {
@@ -35,9 +31,15 @@ class Obstacle {
         }
 
         this.draw();
-
     }
 
+}
+
+function resetObstacles() {
+    for (let i = 0; i < obstaclesArray.length; i++) {
+        obstaclesArray[i].reset();
+
+    }
 }
 
 function handleObstacles() {

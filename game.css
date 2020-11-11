@@ -1,6 +1,6 @@
 #canvas1 {
     position: absolute;
-    top: 50%;
+    top: 56%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 820px;
@@ -8,29 +8,4 @@
     border: 2px solid black;
     background: url(image/BG.png);
     background-size: cover;
-}
-
-.game-starter {
-    width: 50%;
-    height: 40vh;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    line-height: 40vh;
-}
-
-.game-starter h2 {
-    color: white;
-    font-size: 30px;
-    text-align: center;
-}
-
-.game-starter h2 span {
-    font-size: 40px;
-    color: aqua;
-    padding-right: 8px;
 }

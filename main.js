@@ -1,24 +1,14 @@
-const canvas = document.getElementById('canvas1');
-const ctx = canvas.getContext('2d');
-let gamestarter = document.querySelector('.game-starter');
-let seconds = document.getElementById("counter").textContent;
+var canvas = document.getElementById('canvas1');
+
+var ctx = canvas.getContext('2d');
+
+var button1 = document.getElementById("button1");
+
+button1.onclick = () => {
 
 
-
-canvas.width = 600;
-canvas.height = 400;
-
-//Count down window- work this part******
-let countdown = setInterval(function() {
-    seconds--;
-    document.getElementById("counter").textContent = seconds;
-
-    if (seconds <= 0) {
-        clearInterval(countdown);
-        gamestarter.remove();
-        animate();
-    }
-}, 1000)
+    startGame()
+}
 
 let spacePressed = false;
 let angle = 0;
@@ -30,9 +20,6 @@ let gamespeed = 2;
 const gradient = ctx.createLinearGradient(0, 10, 0, 50);
 gradient.addColorStop('0.5', '#fff');
 
-
-
-
 const background = new Image();
 background.src = 'image/BG4.png';
 
@@ -40,17 +27,44 @@ const background1 = new Image();
 background1.src = 'image/BG3.png';
 
 
-const BG = {
+let BG = {
     x1: 0,
     x2: canvas.width,
     y: 0,
     width: canvas.width,
     height: canvas.height,
-
 }
 
-function handleBackground() {
+function resetGame() {
+    spacePressed = false;
+    angle = 0;
+    hue = 0;
+    frame = 0;
+    score = 0;
+    gamespeed = 2;
 
+    const gradient = ctx.createLinearGradient(0, 10, 0, 50);
+    gradient.addColorStop('0.5', '#fff');
+
+    const background = new Image();
+    background.src = 'image/BG4.png';
+
+    const background1 = new Image();
+    background1.src = 'image/BG3.png';
+
+    BG = {
+        x1: 0,
+        x2: canvas.width,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+    }
+}
+
+canvas.width = 600;
+canvas.height = 400;
+
+function handleBackground() {
     if (BG.x1 <= -BG.width + gamespeed) BG.x1 = BG.width;
     else BG.x1 -= 0.7;
     if (BG.x2 <= -BG.width + gamespeed) BG.x2 = BG.width;
@@ -62,14 +76,17 @@ function handleBackground() {
 
 }
 
+function startGame() {
 
+    resetGame()
+    bird.reset()
+    resetObstacles()
+    button1.style.display = "none";
+    animate()
+}
 
 function animate() {
-
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
     handleBackground();
     playMusic();
 
@@ -85,14 +102,15 @@ function animate() {
 
 
     handleParticles();
-    handleCollision();
-    if (handleCollision()) return;
-
+    if (didBirdCollide()) {
+        showResult()
+        resetGame()
+        return;
+    }
     requestAnimationFrame(animate);
     angle += 0.12;
     hue++;
     frame++;
-
 }
 
 
@@ -111,55 +129,56 @@ window.addEventListener('keyup', function(e) {
 const bang = new Image();
 bang.src = 'image/bang.png';
 
-function handleCollision() {
+function showResult() {
+    ctx.drawImage(bang, bird.x, bird.y, 50, 50);
+    ctx.font = "30px Georgia";
+    ctx.fillStyle = "white";
+
+    button1.style.display = "inline";
+
+
+    if (score < 5) {
+
+        ctx.fillText("Scor : " + score + " - Ezik Seviyesi", 140, canvas.height / 2 - 20);
+    } else if (score > 5 && score < 11) {
+
+        ctx.fillText("Scor : " + score + " - Tekrar Dene", 140, canvas.height / 2 - 20);
+
+    } else if (score > 10 && score < 21) {
+
+        ctx.fillText("Scor : " + score + " - Fena Degil", 140, canvas.height / 2 - 20);
+
+    } else if (score > 20 && score < 31) {
+
+        ctx.fillText("Scor : " + score + " - Cok iyi !", 160, canvas.height / 2 - 20);
+    } else if (score > 30 && score < 41) {
+
+        ctx.fillText("Scor : " + score + " - Mukemmel !!!", 140, canvas.height / 2 - 20);
+    } else if (score > 40 && score < 51) {
+
+        ctx.fillText("Scor : " + score + " - Dumani Tuten Ejder", 140, canvas.height / 2 - 20);
+    } else if (score > 50) {
+
+        ctx.fillText("Scor : " + score + " - w EJDER KRALI w", 140, canvas.height / 2 - 20);
+    }
+
+
+    ctx.fillStyle = "white";
+    ctx.fillText("Tekrar Oynamak icin Start Tusuna bas ", 50, canvas.height - 160);
+    return true;
+
+}
+
+
+function didBirdCollide() {
     for (let i = 0; i < obstaclesArray.length; i++) {
         if (bird.x < obstaclesArray[i].x + obstaclesArray[i].width &&
             bird.x + bird.width > obstaclesArray[i].x &&
             ((bird.y < 0 + obstaclesArray[i].top && bird.y + bird.height > 0) ||
                 (bird.y > canvas.height - obstaclesArray[i].bottom &&
                     bird.y + bird.height < canvas.height))) {
-
-
-
-            //collision detected*******************
-
-            ctx.drawImage(bang, bird.x, bird.y, 50, 50);
-            ctx.font = "30px Georgia";
-            ctx.fillStyle = "white";
-
-
-
-            if (score < 5) {
-
-                ctx.fillText("Scor : " + score + " - Ezik Seviyesi", 140, canvas.height / 2 - 20);
-            } else if (score > 5 && score < 11) {
-
-                ctx.fillText("Scor : " + score + " - Tekrar Dene", 140, canvas.height / 2 - 20);
-
-            } else if (score > 10 && score < 21) {
-
-                ctx.fillText("Scor : " + score + " - Fena Degil", 140, canvas.height / 2 - 20);
-
-            } else if (score > 20 && score < 31) {
-
-                ctx.fillText("Scor : " + score + " - Cok iyi !", 160, canvas.height / 2 - 20);
-            } else if (score > 30 && score < 41) {
-
-                ctx.fillText("Scor : " + score + " - Mukemmel !!!", 140, canvas.height / 2 - 20);
-            } else if (score > 40 && score < 51) {
-
-                ctx.fillText("Scor : " + score + " - Dumani Tuten Ejder", 140, canvas.height / 2 - 20);
-            } else if (score > 50) {
-
-                ctx.fillText("Scor : " + score + " - w EJDER KRALI w", 140, canvas.height / 2 - 20);
-            }
-
-
-            ctx.fillStyle = "white";
-            ctx.fillText("Tekrar Oynamak icin F5'e Bas", 100, canvas.height - 160);
-            return true;
-
+            return true
         }
-
     }
+    return false
 }

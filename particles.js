@@ -2,8 +2,8 @@ const particlesArray = [];
 
 class Particle {
     constructor() {
-        this.x = bird.x;
-        this.y = bird.y;
+        this.x = bird.x - 25;
+        this.y = bird.y + 45;
         this.size = Math.random() * 7 + 3;
         this.speedY = (Math.random() * 1) - 0.5;
         this.color = 'hsla(' + hue + ',5%,50%,0.8)';

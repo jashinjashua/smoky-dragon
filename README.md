@@ -10,4 +10,4 @@ new uptade: 28.03.2021
 -new cover image has been edited</br>
 
 
-update:11.11.2020
+updated:11.11.2020

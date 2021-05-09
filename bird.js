@@ -29,15 +29,15 @@ class Bird {
             this.y += this.vy;
         }
 
-        if (this.y < 0 + this.height) {
-            this.y = 0 + this.height;
+        if (this.y < 0 ) {
+            this.y = 0;
             this.vy = 0;
 
 
 
 
         }
-        if (spacePressed && this.y > this.height * 1.5) this.flap();
+        if (spacePressed && this.y > 0) this.flap();
     }
 
     draw() {
